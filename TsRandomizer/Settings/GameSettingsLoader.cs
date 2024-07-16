@@ -433,44 +433,34 @@ namespace TsRandomizer.Settings
 
 		static Dictionary<string, OrbDamageOdds> FixOrbNames(Dictionary<string, OrbDamageOdds> orbs)
 		{
-			Dictionary<string, OrbDamageOdds> namingFixes = new Dictionary<string, OrbDamageOdds>();
+			Dictionary<string, OrbDamageOdds> fixedOrbs = new Dictionary<string, OrbDamageOdds>();
 			foreach (var orb in orbs)
 			{
 				switch (orb.Key)
 				{
 					case "Plasma":
-						namingFixes.Add("Pink", orb.Value);
+						fixedOrbs.Add("Pink", orb.Value);
 						break;
 					case "Fire":
-						namingFixes.Add("Flame", orb.Value);
+						fixedOrbs.Add("Flame", orb.Value);
 						break;
 					case "ForbiddenTome":
 					case "Forbidden Tome":
 					case "Forbidden":
-						namingFixes.Add("Book", orb.Value);
+						fixedOrbs.Add("Book", orb.Value);
 						break;
 					case "Shattered":
-						namingFixes.Add("Moon", orb.Value);
+						fixedOrbs.Add("Moon", orb.Value);
 						break;
 					case "Radiant":
-						namingFixes.Add("Barrier", orb.Value);
+						fixedOrbs.Add("Barrier", orb.Value);
 						break;
+					default:
+						// If the name doesn't need fixing, keep the old name.
+						fixedOrbs.Add(orb.Key, orb.Value);
 				}
 			}
-			orbs.Remove("Plasma");
-			orbs.Remove("Fire");
-			orbs.Remove("ForbiddenTome");
-			orbs.Remove("Forbidden Tome");
-			orbs.Remove("Forbidden");
-			orbs.Remove("Shattered");
-			orbs.Remove("Radiant");
-			orbs = orbs.Keys
-				.Union(namingFixes.Keys)
-				.ToDictionary(
-					orb => orb,
-					orb => namingFixes.ContainsKey(orb) ? namingFixes[orb] : orbs[orb]
-				);
-			return orbs;
+			return fixedOrbs;
 		}
 	}
 }
